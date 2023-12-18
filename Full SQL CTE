@@ -1,0 +1,64 @@
+WITH MonthFrequency AS (
+    SELECT
+        [Loyalty Number],
+        Month,
+        SUM([Flights Booked]) AS TotalFlightsPerMonth
+    FROM
+        flight_activity
+    GROUP BY
+        [Loyalty Number], Month
+),
+RankedMonths AS (
+    SELECT
+        [Loyalty Number],
+        Month,
+        TotalFlightsPerMonth,
+        ROW_NUMBER() OVER (PARTITION BY [Loyalty Number] ORDER BY TotalFlightsPerMonth DESC, Month ASC) AS Rn
+    FROM
+        MonthFrequency
+),
+AggregatedData AS (
+    SELECT 
+        fa.[Loyalty Number],
+        SUM(fa.[Total Flights]) AS [Total Flights Booked],
+        SUM(fa.[Points Accumulated]) AS [Total Points],
+        SUM(fa.[Points Redeemed]) AS [Total Points Redeemed],
+        SUM(fa.[Dollar Cost Points Redeemed]) AS [Total Dollar Cost Redeemed]
+    FROM 
+        flight_activity fa
+    GROUP BY 
+        fa.[Loyalty Number]
+),
+SelectedMonth AS (
+    SELECT [Loyalty Number], Month AS [Most Popular Month]
+    FROM RankedMonths
+    WHERE Rn = 1
+)
+SELECT 
+    lh.[Loyalty Number],
+    lh.Country,
+    lh.Province,
+    lh.City,
+    lh.[Postal Code],
+    lh.Gender,
+    lh.Education,
+    lh.Salary,
+    lh.[Marital Status],
+    lh.[Loyalty Card],
+    lh.CLV,
+    lh.[Enrollment Type],
+    lh.[Enrollment Year],
+    lh.[Enrollment Month],
+    lh.[Cancellation Year],
+    lh.[Cancellation Month],
+    ad.[Total Flights Booked],
+    ad.[Total Points],
+    ad.[Total Points Redeemed],
+    ad.[Total Dollar Cost Redeemed],
+    sm.[Most Popular Month]
+FROM 
+    loyalty_history lh
+LEFT JOIN 
+    AggregatedData ad ON lh.[Loyalty Number] = ad.[Loyalty Number]
+LEFT JOIN 
+SelectedMonth sm ON lh.[Loyalty Number] = sm.[Loyalty Number];

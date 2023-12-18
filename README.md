@@ -1,6 +1,6 @@
 <h3>#Used Python to upload 2 CSV files from folder on desktop to Azure Cloud storage location and used Windows Task Scheduler to set up time to automatically run code</h3>
 
-[CSV file upload.pdf](https://github.com/jtasker811/Data-Engineering/files/13708215/CSV.file.upload.pdf)
+![CSV file upload_page-0001](https://github.com/jtasker811/Data-Engineering/assets/105367089/58f53d6b-411c-496f-980b-690fbeecea1c)
 
 <h3>#Created cloud based pipeline on Keboola Connection to move my newly uploaded files from Azure to Keboola for a SQL transformation to be automatically performed as the 2nd stage of the data pipeline.</h3>
 
@@ -16,4 +16,5 @@
 
 <h3>#The Azure Cloud container was then connected to PowerBI to visualize the insights in a dashboard and a scheduled refresh was set-up to ensure entire ETL process was automated.</h3>
 
-[airline_loyalty.pdf](https://github.com/jtasker811/Data-Engineering/files/13708283/airline_loyalty.pdf)
+![airline_loyalty (1)_page-0001](https://github.com/jtasker811/Data-Engineering/assets/105367089/3254dd61-0f5f-4c20-9eb3-1d94565fcf62)
+
